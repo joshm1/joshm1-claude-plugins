@@ -1,0 +1,15 @@
+{
+  "name": "joshm1-claude-plugins",
+  "owner": {
+    "name": "Josh M"
+  },
+  "description": "Personal collection of Claude Code plugins for Python development, testing, and git workflows",
+  "plugins": [
+    {
+      "name": "joshm1-dev-tools",
+      "source": "./.claude",
+      "description": "Complete collection of development tools including Python testing agents, git safety commands, and coding standards skills",
+      "version": "1.0.0"
+    }
+  ]
+}
