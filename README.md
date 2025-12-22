@@ -4,17 +4,34 @@ My personal Claude Code plugins collection.
 
 ## Installation
 
-To use these plugins with Claude Code:
+### Using Claude Code Marketplace (Recommended)
+
+The easiest way to install these plugins:
 
 ```bash
-# Clone this repository
+# Add this marketplace to Claude Code
+/plugin marketplace add joshm1/joshm1-claude-plugins
+
+# Install the plugin bundle
+/plugin install joshm1-dev-tools@joshm1-claude-plugins
+```
+
+Then browse available plugins with:
+```bash
+/plugin
+```
+
+### Manual Installation
+
+For local testing or development:
+
+```bash
+# Add local marketplace
+/plugin marketplace add /path/to/joshm1-claude-plugins
+
+# Or clone and link directly
 git clone https://github.com/joshm1/joshm1-claude-plugins.git
-
-# Link to your project (from your project directory)
-ln -s /path/to/joshm1-claude-plugins/.claude .claude-plugins
-
-# Or copy the .claude directory to your project
-cp -r joshm1-claude-plugins/.claude your-project/.claude
+ln -s /path/to/joshm1-claude-plugins/.claude your-project/.claude
 ```
 
 ## Plugin Structure
