@@ -3,12 +3,24 @@
   "owner": {
     "name": "Josh M"
   },
-  "description": "Personal collection of Claude Code plugins for Python development, testing, and git workflows",
+  "description": "Personal collection of Claude Code plugins for web development, testing, and git workflows",
   "plugins": [
     {
       "name": "python-dev",
       "source": "./plugins/python-dev/.claude",
       "description": "Python development tools: pytest testing agents (fix, runner), pyright strict type checking, and Python code smell auditing",
+      "version": "1.0.0"
+    },
+    {
+      "name": "typescript-dev",
+      "source": "./plugins/typescript-dev/.claude",
+      "description": "TypeScript development tools: quick post-edit type checking and linting to catch errors early",
+      "version": "1.0.0"
+    },
+    {
+      "name": "browser-testing",
+      "source": "./plugins/browser-testing/.claude",
+      "description": "Browser automation and debugging with Playwright MCP for visual testing, UI debugging, and E2E test development",
       "version": "1.0.0"
     },
     {
