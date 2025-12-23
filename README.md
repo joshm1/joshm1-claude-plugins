@@ -12,8 +12,10 @@ The easiest way to install these plugins:
 # Add this marketplace to Claude Code
 /plugin marketplace add joshm1/joshm1-claude-plugins
 
-# Install the plugin bundle
-/plugin install joshm1-dev-tools@joshm1-claude-plugins
+# Install individual plugins
+/plugin install python-dev@joshm1-claude-plugins
+/plugin install git-public@joshm1-claude-plugins
+/plugin install dev-utils@joshm1-claude-plugins
 ```
 
 Then browse available plugins with:
@@ -34,38 +36,45 @@ git clone https://github.com/joshm1/joshm1-claude-plugins.git
 ln -s /path/to/joshm1-claude-plugins/.claude your-project/.claude
 ```
 
-## Plugin Structure
+## Available Plugins
 
-This repository contains:
+### python-dev
 
-- **Subagents** (`.claude/agents/`) - Autonomous agents for complex tasks
-- **Slash Commands** (`.claude/commands/`) - User-invoked commands
-- **Skills** (`.claude/skills/`) - Context-aware guidance that Claude invokes automatically
+Python development tools for testing and code quality.
 
-## Available Extensions
+**Subagents:**
+- `pytest-fix` - Analyze and fix failing pytest tests
+- `pytest-runner` - Run pytest tests, analyze failures, and fix broken tests
+- `python-lint-fix` - Fix Python linting errors and warnings with pyright strict type checking
 
-### Subagents
+**Commands:**
+- `/python-code-smell-audit` - Audit Python code for common AI coding agent mistakes
 
-- **pytest-fix** - Analyze and fix failing pytest tests
-- **pytest-runner** - Run pytest tests, analyze failures, and fix broken tests
-- **python-lint-fix** - Fix Python linting errors and warnings with pyright strict type checking
+**Skills:**
+- `pyright-strict-types` - Enforce strict Python typing standards with pyright type checking
+- `python-code-smell-audit-updater` - Updates the Python code smell audit command when user gives feedback
+- `python-scripts` - Standards for writing Python utility scripts
 
-### Commands
+### git-public
 
-- **commit** - Interactive git staging and semantic commit workflow
-- **compact-instructions** - Compact instruction files
-- **list-skills** - List all available Claude Code skills
-- **python-code-smell-audit** - Audit Python code for common AI coding agent mistakes
-- **review-safe-commit-history** - Review existing commit history for security issues and secret leaks
-- **safe-commit** - Safely commit changes with secret scanning and .gitignore validation
-- **update-mcp-token-usage** - Update MCP token usage statistics from /context output
+Safe git workflows for public repositories with secret scanning and security checks.
 
-### Skills
+**Commands:**
+- `/commit` - Interactive git staging and semantic commit workflow
+- `/safe-commit` - Safely commit changes with secret scanning and .gitignore validation
+- `/review-safe-commit-history` - Review existing commit history for security issues and secret leaks
 
-- **create-claude-code-extension** - Guide for creating Claude Code subagents, slash commands, or skills
-- **pyright-strict-types** - Enforce strict Python typing standards with pyright type checking
-- **python-code-smell-audit-updater** - Updates the Python code smell audit command when user gives feedback
-- **python-scripts** - Standards for writing Python utility scripts
+### dev-utils
+
+General development utilities and helpers.
+
+**Commands:**
+- `/compact-instructions` - Compact instruction files
+- `/list-skills` - List all available Claude Code skills
+- `/update-mcp-token-usage` - Update MCP token usage statistics from /context output
+
+**Skills:**
+- `create-claude-code-extension` - Guide for creating Claude Code subagents, slash commands, or skills
 
 ## Creating New Extensions
 
