@@ -14,6 +14,8 @@ The easiest way to install these plugins:
 
 # Install individual plugins
 /plugin install python-dev@joshm1-claude-plugins
+/plugin install typescript-dev@joshm1-claude-plugins
+/plugin install browser-testing@joshm1-claude-plugins
 /plugin install git-public@joshm1-claude-plugins
 /plugin install dev-utils@joshm1-claude-plugins
 ```
@@ -54,6 +56,20 @@ Python development tools for testing and code quality.
 - `pyright-strict-types` - Enforce strict Python typing standards with pyright type checking
 - `python-code-smell-audit-updater` - Updates the Python code smell audit command when user gives feedback
 - `python-scripts` - Standards for writing Python utility scripts
+
+### typescript-dev
+
+TypeScript development tools for catching type errors and lint issues early.
+
+**Subagents:**
+- `post-edit-checker` - Quick TypeScript and Biome checks after code edits (runs proactively after modifying TypeScript/React code)
+
+### browser-testing
+
+Browser automation and debugging with Playwright MCP.
+
+**Subagents:**
+- `playwright-mcp-agent` - Interactive browser automation for visual testing, UI debugging, screenshots, and E2E test development
 
 ### git-public
 
