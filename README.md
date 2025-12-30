@@ -87,10 +87,12 @@ General development utilities and helpers.
 **Commands:**
 - `/compact-instructions` - Compact instruction files
 - `/list-skills` - List all available Claude Code skills
+- `/sync-claude-code-permissions [dir]` - Sync project permissions to user settings (discovers permissions from .claude/settings.json files and adds safe ones to ~/.claude/settings.json)
 - `/update-mcp-token-usage` - Update MCP token usage statistics from /context output
 
 **Skills:**
 - `create-claude-code-extension` - Guide for creating Claude Code subagents, slash commands, or skills
+- `sync-permissions` - Bundled Python script for permission discovery
 
 ## Creating New Extensions
 

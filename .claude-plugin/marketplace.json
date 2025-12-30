@@ -20,8 +20,8 @@
     {
       "name": "browser-testing",
       "source": "./plugins/browser-testing/.claude",
-      "description": "Browser automation and debugging with Playwright MCP for visual testing, UI debugging, and E2E test development",
-      "version": "1.0.0"
+      "description": "Browser automation with Playwright MCP: E2E documentation and QA with screenshots, user journey walkthroughs, visual testing, UI debugging, error monitoring, and automatic issue delegation",
+      "version": "1.1.1"
     },
     {
       "name": "git-public",
@@ -33,7 +33,7 @@
       "name": "dev-utils",
       "source": "./plugins/dev-utils/.claude",
       "description": "General development utilities: skill management, instruction compacting, MCP token tracking, and extension creation guide",
-      "version": "1.0.0"
+      "version": "1.0.1"
     }
   ]
 }
