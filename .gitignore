@@ -36,3 +36,4 @@ Temporary Items
 *.local
 .env.local
 .env.*.local
+.serena/
