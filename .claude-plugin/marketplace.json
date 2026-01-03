@@ -21,7 +21,7 @@
       "name": "browser-testing",
       "source": "./plugins/browser-testing/.claude",
       "description": "Browser automation with Playwright MCP: E2E documentation and QA with screenshots, user journey walkthroughs, visual testing, UI debugging, error monitoring, and automatic issue delegation",
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     {
       "name": "git-public",
