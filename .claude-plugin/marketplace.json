@@ -34,6 +34,12 @@
       "source": "./plugins/dev-utils/.claude",
       "description": "General development utilities: skill management, instruction compacting, MCP token tracking, and extension creation guide",
       "version": "1.0.1"
+    },
+    {
+      "name": "react-native-appium",
+      "source": "./plugins/react-native-appium/.claude",
+      "description": "React Native/Expo Appium E2E testing: TDD workflow agents, testID auditing, Page Object patterns, WebDriverIO setup, and cross-platform test generation",
+      "version": "1.0.0"
     }
   ]
 }

@@ -1,0 +1,26 @@
+{
+  "name": "react-native-appium",
+  "version": "1.0.0",
+  "description": "TDD workflow and test generation for React Native/Expo Appium E2E testing. Includes agents for test writing, testID inspection, and comprehensive Page Object Model patterns.",
+  "author": "joshm1",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "expo",
+    "appium",
+    "e2e",
+    "tdd",
+    "testing",
+    "webdriverio",
+    "page-object-model"
+  ],
+  "agents": {
+    "auto_discover": true
+  },
+  "commands": {
+    "auto_discover": true
+  },
+  "skills": {
+    "auto_discover": true
+  }
+}
