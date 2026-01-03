@@ -462,3 +462,162 @@ This skill produces:
 - **Journey document** - Markdown walkthrough with embedded images
 - **Issues list** - All problems found with status
 - **Suggestions list** - UX/UI improvement recommendations
+
+---
+
+## Scripts (Agentic Capabilities)
+
+This skill includes automation scripts for self-verification and catalog management.
+
+### validate_documentation.py
+
+Verifies that generated documentation meets quality standards.
+
+```bash
+# Validate a specific flow
+python scripts/validate_documentation.py login-flow
+
+# Validate all documented flows
+python scripts/validate_documentation.py --all
+
+# JSON output for automation
+python scripts/validate_documentation.py --all --json
+```
+
+**What it checks:**
+- Markdown file exists and is non-empty
+- All referenced screenshots exist
+- Required sections present (Overview, User Flow, Summary)
+- No broken image links
+
+**Exit codes:**
+- `0` - All validations passed
+- `1` - General error
+- `10` - Validation failed (issues found)
+
+### generate_index.py
+
+Creates a catalog of all documented flows.
+
+```bash
+# Generate index
+python scripts/generate_index.py
+
+# Preview without writing
+python scripts/generate_index.py --dry-run
+
+# Custom base path
+python scripts/generate_index.py --base-path /path/to/project
+```
+
+**Output:** `docs/user-flows/index.md` with:
+- Table of all flows with status
+- Step counts and issue counts
+- Last verified dates
+- Quick navigation links
+
+---
+
+## Validation Workflow
+
+After generating documentation, always validate:
+
+```
+┌─────────────────────────────────────────┐
+│ 1. Documentation Generated              │
+│    docs/user-flows/[flow-name].md       │
+└─────────────────────────────────────────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────┐
+│ 2. Run Validation                       │
+│    python scripts/validate_documentation│
+│           .py [flow-name]               │
+└─────────────────────────────────────────┘
+                    │
+        ┌───────────┴───────────┐
+        ▼                       ▼
+   [PASS]                  [FAIL]
+        │                       │
+        ▼                       ▼
+┌───────────────┐     ┌─────────────────┐
+│ 3a. Update    │     │ 3b. Fix Issues  │
+│ Index         │     │ - Add missing   │
+│               │     │   screenshots   │
+│ python scripts│     │ - Fix image     │
+│ /generate_    │     │   references    │
+│ index.py      │     │ - Add sections  │
+└───────────────┘     └─────────────────┘
+        │                       │
+        ▼                       ▼
+┌─────────────────────────────────────────┐
+│ 4. Documentation Complete               │
+│    - Flow doc validated                 │
+│    - Index updated                      │
+│    - Ready for stakeholders             │
+└─────────────────────────────────────────┘
+```
+
+**Best practice:** Run validation automatically after every documentation session:
+
+```bash
+# Full workflow
+python scripts/validate_documentation.py [flow-name] && \
+python scripts/generate_index.py
+```
+
+---
+
+## Directory Structure
+
+```
+docs/user-flows/
+├── index.md                    # Auto-generated catalog
+├── login-flow.md               # Flow documentation
+├── checkout-process.md         # Flow documentation
+├── user-settings.md            # Flow documentation
+└── screenshots/
+    ├── login-flow/
+    │   ├── 01-homepage.png
+    │   ├── 02-login-form.png
+    │   └── 03-dashboard.png
+    ├── checkout-process/
+    │   └── ...
+    └── user-settings/
+        └── ...
+```
+
+---
+
+## References
+
+- [Visual Inspection Guide](references/visual-inspection-guide.md) - Systematic checklist for examining screenshots
+
+---
+
+## Extension Points
+
+1. **Baseline comparison** - Add `compare_baselines.py` for visual regression detection
+2. **Staleness detection** - Add `check_staleness.py` to flag outdated docs
+3. **CI/CD integration** - Scripts already return exit codes for automation
+4. **Custom templates** - Add templates to `assets/templates/` for different output formats
+5. **Accessibility testing** - Integrate WCAG checks into the workflow
+
+---
+
+## Changelog
+
+### v2.0.0 (Current)
+- Added `scripts/` directory with automation capabilities
+- Added `validate_documentation.py` for self-verification
+- Added `generate_index.py` for flow catalog generation
+- Added `references/visual-inspection-guide.md`
+- Added Validation Workflow section
+- Added Extension Points for future enhancements
+- Skill now supports agentic operation with exit codes
+
+### v1.0.0
+- Initial release with core documentation and QA workflow
+- Playwright MCP integration
+- Issue detection and delegation
+- Professional markdown output format
