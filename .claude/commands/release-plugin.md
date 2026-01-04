@@ -29,8 +29,10 @@ Automate plugin release workflow: stage plugin changes → version bump → comm
 5. **Update marketplace.json** with the new version
 6. **Stage marketplace.json** with `git add .claude-plugin/marketplace.json`
 7. **Show staged changes** with `git diff --cached --stat` for user review
-8. **Commit all changes** with message: `feat($ARGUMENTS.plugin): Release v{new_version}`
-   - Include a brief summary of what changed in the commit body
+8. **Commit all changes** - the commit message must describe WHAT was added/changed, NOT just "Release vX.Y.Z"
+   - Title format: `feat({plugin}): {what was added}` - e.g., "feat(dev-utils): Add /parallel-implement command"
+   - Body: describe the key features/changes in bullet points
+   - The version number goes in the tag, NOT the commit title
 9. **Create annotated git tag** `{plugin}-v{new_version}` with release notes
 10. **Report** the new version and next steps
 
@@ -39,6 +41,7 @@ Automate plugin release workflow: stage plugin changes → version bump → comm
 - **ALWAYS check `git status plugins/$ARGUMENTS.plugin/`** FIRST before doing anything else
 - **ALWAYS stage plugin directory changes** before updating marketplace.json
 - **NEVER commit just marketplace.json** if there are unstaged plugin changes
+- **NEVER use "Release vX.Y.Z" as the commit title** - describe what was actually added/changed
 - Use `git add plugins/$ARGUMENTS.plugin/` to add all changes including untracked files
 
 ## Execution Order
@@ -61,10 +64,11 @@ git add .claude-plugin/marketplace.json
 # 6. Show what will be committed
 git diff --cached --stat
 
-# 7. Commit everything together
-git commit -m "feat({plugin}): Release v{new_version}
+# 7. Commit everything together (describe WHAT changed, not just version)
+git commit -m "feat({plugin}): {what was added/changed}
 
-{brief summary of changes}"
+- Key feature or change 1
+- Key feature or change 2"
 
 # 8. Create tag
 git tag -a {plugin}-v{new_version} -m "{plugin} v{new_version}: {summary}"
