@@ -37,3 +37,12 @@ Temporary Items
 .env.local
 .env.*.local
 .serena/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
