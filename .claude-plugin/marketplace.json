@@ -8,8 +8,8 @@
     {
       "name": "python-dev",
       "source": "./plugins/python-dev/.claude",
-      "description": "Python development tools: pytest testing agents (fix, runner), pyright strict type checking, and Python code smell auditing",
-      "version": "1.1.0"
+      "description": "Python development tools: pytest testing agents, pyright strict types, ruff-fix, and Python code smell auditing with strict type safety enforcement",
+      "version": "1.2.0"
     },
     {
       "name": "typescript-dev",
