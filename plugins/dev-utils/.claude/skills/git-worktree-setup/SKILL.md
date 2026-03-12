@@ -8,6 +8,10 @@ allowed-tools: Bash, Read, Write, AskUserQuestion
 
 Set up and configure Git worktrees with proper environment isolation to avoid port conflicts and ensure correct file copying.
 
+## Prerequisites
+
+**REQUIRED SUB-SKILL:** If `superpowers:using-git-worktrees` is available, invoke it first. It handles worktree directory selection, gitignore safety, and baseline test verification. Then return here for environment isolation (ports, databases, Claude settings, IDE configs).
+
 ## When to Use This Skill
 
 - Creating a new worktree for parallel development
