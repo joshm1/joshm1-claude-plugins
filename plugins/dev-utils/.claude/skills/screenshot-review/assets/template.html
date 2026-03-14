@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screenshot Review</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+<script src="screenshot-data.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <div class="toolbar">
+    <div class="toolbar-top">
+      <div class="path-group">
+        <span class="path-pill">{{ projectInfo.repo }}</span>
+        <span v-if="projectInfo.worktree" class="path-pill path-pill-wt">{{ projectInfo.worktree }}</span>
+        <button class="copy-path-btn" @click="copyPath" :title="data.projectPath">{{ pathCopied ? '&#10003;' : '&#128203;' }}</button>
+      </div>
+      <div class="toolbar-actions">
+        <button v-if="issueEntries.length > 0" class="icon-btn icon-btn-issue" @click="togglePromptPreview" title="Copy fix prompt">&#9888; {{ issueEntries.length }}</button>
+        <button v-if="hasAnyReviews" class="icon-btn" @click="clearAllReviews" title="Clear all reviews">&#10005;</button>
+        <div class="view-toggle">
+          <button v-if="hasMode('dark')" class="filter-btn" :class="{ active: colorMode === 'dark' }" @click="colorMode = 'dark'" title="Dark mode">&#9790;</button>
+          <button v-if="hasMode('light')" class="filter-btn" :class="{ active: colorMode === 'light' }" @click="colorMode = 'light'" title="Light mode">&#9788;</button>
+          <span class="separator"></span>
+          <button class="view-btn" :class="{ active: viewMode === 'grid' }" @click="viewMode = 'grid'" title="Grid view">&#9638;</button>
+          <button class="view-btn" :class="{ active: viewMode === 'list' }" @click="viewMode = 'list'" title="Group by component">&#9776;</button>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar-filters">
+      <button class="filter-btn" :class="{ active: activeFilter === 'all' }" @click="setFilter('all')">
+        All<span class="filter-count">({{ data.screenshots.length }})</span>
+      </button>
+      <button v-if="issueEntries.length > 0" class="filter-btn filter-btn-issues" :class="{ active: showIssuesOnly }" @click="showIssuesOnly = !showIssuesOnly">
+        Issues<span class="filter-count">({{ issueEntries.length }})</span>
+      </button>
+      <button v-for="c in components" :key="c" class="filter-btn" :class="{ active: activeFilter === c }" @click="setFilter(c)">
+        {{ c }}<span class="filter-count">({{ countByComponent(c) }})</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <!-- Grid view -->
+    <div v-if="viewMode === 'grid'" class="grid">
+      <div v-for="(s, i) in filtered" :key="reviewKey(s)" class="card" :class="{ 'card-selected': isSelected(reviewKey(s)) }" @click="openLightbox(i)">
+        <img :src="imgPath(s)" :alt="s.displayName || s.variant" class="card-img" :style="imgStyle(s)" loading="lazy">
+        <div class="card-meta">
+          <span class="card-component">{{ s.component }}</span>
+          <span class="card-variant">{{ s.displayName || s.variant }}</span>
+        </div>
+        <div class="card-actions">
+          <div class="status-row">
+            <button class="status-btn" :class="{ pass: reviews[reviewKey(s)] === 'pass' }" @click.stop="toggleReview(reviewKey(s), 'pass', $event)">Pass</button>
+            <button class="status-btn" :class="{ issue: reviews[reviewKey(s)] === 'issue' }" @click.stop="toggleReview(reviewKey(s), 'issue', $event)">Issue</button>
+          </div>
+          <a v-if="cosmosUrl(s)" :href="cosmosUrl(s)" target="_blank" class="cosmos-link" @click.stop title="Open in Cosmos">Cosmos &rarr;</a>
+        </div>
+        <div v-if="reviews[reviewKey(s)] === 'issue'" class="comment-area" @click.stop>
+          <textarea class="comment-input" :value="comments[reviewKey(s)] || ''" @input="updateComment(reviewKey(s), $event.target.value)" placeholder="What's the issue?"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- List view -->
+    <div v-if="viewMode === 'list'">
+      <div v-for="c in filteredComponents" :key="c" class="component-section">
+        <h2>{{ c }} <span class="count">{{ countByComponent(c) }} variants</span></h2>
+        <div class="list-grid">
+          <div v-for="(s, i) in screenshotsByComponent(c)" :key="reviewKey(s)" class="card" :class="{ 'card-selected': isSelected(reviewKey(s)) }" @click="openLightbox(globalIndex(s))">
+            <img :src="imgPath(s)" :alt="s.displayName || s.variant" class="card-img" :style="imgStyle(s)" loading="lazy">
+            <div class="card-meta">
+              <span class="card-variant">{{ s.displayName || s.variant }}</span>
+            </div>
+            <div class="card-actions">
+              <div class="status-row">
+                <button class="status-btn" :class="{ pass: reviews[reviewKey(s)] === 'pass' }" @click.stop="toggleReview(reviewKey(s), 'pass', $event)">Pass</button>
+                <button class="status-btn" :class="{ issue: reviews[reviewKey(s)] === 'issue' }" @click.stop="toggleReview(reviewKey(s), 'issue', $event)">Issue</button>
+              </div>
+              <a v-if="cosmosUrl(s)" :href="cosmosUrl(s)" target="_blank" class="cosmos-link" @click.stop title="Open in Cosmos">Cosmos &rarr;</a>
+            </div>
+            <div v-if="reviews[reviewKey(s)] === 'issue'" class="comment-area" @click.stop>
+              <textarea class="comment-input" :value="comments[reviewKey(s)] || ''" @input="updateComment(reviewKey(s), $event.target.value)" placeholder="What's the issue?"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Batch comment panel -->
+  <div v-if="selectedCount() > 0" class="batch-panel">
+    <div class="batch-header">
+      <span>{{ selectedCount() }} screenshots selected</span>
+      <button class="batch-cancel" @click="cancelBatch">&times;</button>
+    </div>
+    <textarea class="batch-input" v-model="batchComment" placeholder="Type a comment for all selected issues..." @keydown.meta.enter="applyBatchComment" @keydown.ctrl.enter="applyBatchComment"></textarea>
+    <div class="batch-footer">
+      <span class="batch-hint">Cmd+Enter to apply</span>
+      <button class="batch-apply" @click="applyBatchComment">Apply to all</button>
+    </div>
+  </div>
+
+  <!-- Prompt preview -->
+  <div v-if="showPromptPreview" class="prompt-overlay" @click.self="showPromptPreview = false">
+    <div class="prompt-panel">
+      <div class="prompt-header">
+        <span>Fix Prompt Preview</span>
+        <button class="batch-cancel" @click="showPromptPreview = false">&times;</button>
+      </div>
+      <pre class="prompt-text">{{ buildPrompt() }}</pre>
+      <div class="prompt-footer">
+        <button class="batch-apply" :disabled="issueEntries.length === 0" @click="copyPrompt">{{ promptCopied ? 'Copied!' : 'Copy to clipboard' }}</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div v-if="lightboxIndex !== null" class="lightbox" @click.self="lightboxIndex = null" @keydown.escape="lightboxIndex = null" @keydown.left="prevLightbox" @keydown.right="nextLightbox" tabindex="0" ref="lightboxEl">
+    <button class="lightbox-close" @click="lightboxIndex = null">&times;</button>
+    <button class="lightbox-nav prev" @click="prevLightbox">&lsaquo;</button>
+    <img :src="filtered[lightboxIndex] ? imgPath(filtered[lightboxIndex]) : ''" :alt="filtered[lightboxIndex]?.variant">
+    <div class="lightbox-meta">
+      <div class="component">{{ filtered[lightboxIndex]?.component }}</div>
+      <div class="variant">{{ filtered[lightboxIndex]?.displayName || filtered[lightboxIndex]?.variant }}</div>
+    </div>
+    <button class="lightbox-nav next" @click="nextLightbox">&rsaquo;</button>
+    <div class="lightbox-counter">{{ lightboxIndex + 1 }} / {{ filtered.length }}</div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
