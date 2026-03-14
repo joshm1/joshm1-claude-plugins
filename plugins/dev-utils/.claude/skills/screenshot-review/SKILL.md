@@ -9,21 +9,20 @@ Build an interactive HTML gallery for reviewing component screenshots (`Componen
 
 ## Usage
 
-One command — the script scans for screenshots, parses fixture files for display names, auto-detects Cosmos URL from `.ports.json`, and builds the HTML:
+One command — the script scans for screenshots, parses fixture files for display names, auto-detects Cosmos URL from `.ports.json`, and builds the gallery:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/build_review.py <project-dir> [--serve [PORT]] [--cosmos-url URL]
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/screenshot-review/scripts/build_review.py <project-dir> --serve [PORT]
 ```
 
-To build and serve immediately:
+Options:
 
-```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/build_review.py /path/to/project --serve 8789
-```
+- `--serve [PORT]` — serve immediately (default port: 8789), prints localhost + Tailscale URLs
+- `--cosmos-url URL` — override Cosmos base URL (auto-detected from `.ports.json`)
+- `--auto-crop` — detect and crop blank space / border artifacts (requires Pillow)
+- `--output DIR` — output directory (default: `<project>/.screenshot-review/`)
 
-The output HTML is written to `<project-dir>/screenshot-review.html`. It uses relative paths to reference the screenshot PNGs, so it must be served from the project directory.
-
-If not using `--serve`, use the `serve-html` skill to serve `screenshot-review.html` from the project directory.
+Output goes to `<project>/.screenshot-review/` with separate HTML, CSS, JS, and data files. The server maps `/` to the gallery while resolving screenshot image paths from the project root.
 
 ## What the script does
 
@@ -31,16 +30,17 @@ If not using `--serve`, use the `serve-html` skill to serve `screenshot-review.h
 2. Extracts component names, variant slugs (PNG filenames), and available modes (dark/light)
 3. Finds matching `.fixture.tsx` files and parses exported object keys for human-readable display names
 4. Reads `.ports.json` for Cosmos URL (or uses `--cosmos-url`)
-5. Validates the generated data against `assets/screenshot-data.schema.json`
-6. Injects CSS (`assets/styles.css`), JS (`assets/app.js`), and data into `assets/template.html`
-7. Writes the self-contained HTML output
+5. Validates the generated data against the JSON schema
+6. Copies static assets (HTML, CSS, JS) and writes `screenshot-data.js` to output directory
 
 ## Gallery features
 
-- Dark/Light toggle between color mode screenshots
-- Component filter pills with counts
+- Dark/Light theme toggle for both screenshots and page chrome
+- Component filter tabs with counts, issues-only filter
 - Grid and list (grouped by component) views
 - Lightbox with arrow key navigation
-- Pass/Issue buttons persisted to localStorage
+- Issue tracking with inline comments, Cmd+click batch selection
+- AI fix prompt generator (copies component, variant, fixture path, screenshots, and comments)
 - Cosmos deep-links to open fixtures directly (when URL available)
-- Component filter synced to URL params
+- Mobile-responsive layout with horizontal-scroll tabs
+- Repo + worktree pills with clipboard copy for project path
