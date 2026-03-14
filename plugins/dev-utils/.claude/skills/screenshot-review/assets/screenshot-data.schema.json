@@ -19,6 +19,18 @@
       "type": "string",
       "description": "Relative path from the HTML output to the directory containing ComponentName.__screenshots__/ dirs"
     },
+    "borderInset": {
+      "type": "object",
+      "description": "Border artifact inset as CSS percentages, applied via clip-path to all screenshots",
+      "properties": {
+        "top": { "type": "number" },
+        "right": { "type": "number" },
+        "bottom": { "type": "number" },
+        "left": { "type": "number" }
+      },
+      "required": ["top", "right", "bottom", "left"],
+      "additionalProperties": false
+    },
     "screenshots": {
       "type": "array",
       "items": {
@@ -51,6 +63,11 @@
             "minItems": 1,
             "uniqueItems": true,
             "description": "Which color modes have screenshots available"
+          },
+          "contentAspectRatio": {
+            "type": "number",
+            "description": "Auto-detected aspect ratio (width/height) of the content area, for CSS cropping of blank space",
+            "exclusiveMinimum": 0
           }
         }
       }
