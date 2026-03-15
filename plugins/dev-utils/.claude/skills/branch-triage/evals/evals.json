@@ -1,0 +1,53 @@
+{
+  "skill_name": "branch-triage",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "what unmerged branches do we have? help me figure out which ones to clean up and which to keep",
+      "expected_output": "An interactive HTML dashboard served locally with branch cards, safety verdicts, action dropdowns, and cleanup scripts. Should use the skill's data gathering steps and produce a Vue 3 page.",
+      "files": [],
+      "expectations": [
+        "Output is a single HTML file",
+        "HTML uses Vue 3 (cdn.jsdelivr.net/npm/vue@3 or similar CDN)",
+        "Dashboard has tab navigation (All, Delete, Work Queue or Next Up, Script)",
+        "Each branch has an action selector (delete, keep, next-up, park, etc.)",
+        "Branch cards show PR status information (merged, open, closed, or no-pr)",
+        "Safety verdicts are shown (verified-safe, likely-safe, has-unique-work, or needs-review)",
+        "Delete tab includes generated git cleanup scripts (git branch -D or git push origin --delete)",
+        "Dashboard uses dark theme styling",
+        "Branch data is embedded directly in the HTML (not loaded from external file)"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I want to review my branches on my phone later tonight - give me something I can paste into Claude on my phone to get a triage dashboard",
+      "expected_output": "Should run the bundled gather_branch_data.py script and present the prompt output for copying. Should mention the template.html for rendering the AI's JSON response.",
+      "files": [],
+      "expectations": [
+        "Ran the bundled script gather_branch_data.py (or equivalent data gathering)",
+        "Output includes a prompt/text that can be pasted into another AI",
+        "The prompt asks the AI to respond with JSON (not HTML)",
+        "References the template.html file for rendering the JSON response",
+        "The prompt includes branch metadata (names, PR status, commit counts)",
+        "The prompt includes a JSON schema or example showing the expected output format",
+        "Does NOT generate a full HTML dashboard (this is the offline workflow)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "show me which branches are safe to delete. I want to clean up stale stuff but I'm worried about losing work since we squash merge",
+      "expected_output": "Should emphasize squash-merge-aware safety verification. Should produce a dashboard or report with safety verdicts (verified-safe, likely-safe, etc.) and confidence scores. Should NOT use hash-based ancestry checks.",
+      "files": [],
+      "expectations": [
+        "Output addresses squash merge concerns explicitly",
+        "Uses content-based verification (git diff, not git merge-base --is-ancestor)",
+        "Safety verdicts are assigned to branches (verified-safe, likely-safe, has-unique-work, needs-review)",
+        "Safety detail explanations are provided for each branch",
+        "Branches with verified-safe or likely-safe verdicts are marked for deletion",
+        "Branches with has-unique-work are NOT defaulted to delete",
+        "Generated cleanup scripts only pre-select safe-to-delete branches",
+        "Output is an HTML dashboard (not just text)"
+      ]
+    }
+  ]
+}
