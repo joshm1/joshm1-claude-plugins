@@ -33,7 +33,7 @@
       "name": "dev-utils",
       "source": "./plugins/dev-utils/.claude",
       "description": "General development utilities: skill management, instruction compacting, MCP token tracking, extension creation, git worktree management, screenshot review galleries, and GitHub releases",
-      "version": "1.4.1"
+      "version": "1.5.0"
     },
     {
       "name": "react-native-appium",
