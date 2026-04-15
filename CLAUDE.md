@@ -76,6 +76,7 @@ This stages changes, bumps version, commits (with descriptive message — not ju
 | `testing` | Zero-tolerance test failure and error investigation discipline |
 | `react-native-appium` | TDD workflow for Appium E2E with Page Object patterns |
 | `openclaw` | OpenClaw skill authoring standards and SKILL.md format |
+| `audio-transcripts` | Text-side speaker diarization for Whisper ASR transcripts (paired with pyannote in polyphony) |
 | `dev-utils` | Meta utilities: instruction compacting, permission syncing, screenshot galleries |
 
 ## Conventions

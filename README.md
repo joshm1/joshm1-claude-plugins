@@ -24,6 +24,7 @@ They're opinionated by design. A plugin that says "maybe consider running tests"
 | **testing** | "Pre-existing" and "flaky" are excuses to skip investigation | Zero tolerance: every test failure is your responsibility until you prove otherwise with evidence. |
 | **react-native-appium** | Mobile E2E tests are unreliable and hard to maintain | TDD workflow with Page Object patterns and accessibility-first selectors (`testID` over XPath). |
 | **openclaw** | AI skill authoring has no standardized format | Structured SKILL.md format with frontmatter, metadata gating, and distribution through ClawHub. |
+| **audio-transcripts** | Raw ASR transcripts don't know who's talking | Text-side speaker diarization paired with audio-side pyannote for ensemble accuracy. |
 | **dev-utils** | Miscellaneous development workflow gaps | Instruction compacting, permission syncing, screenshot galleries, playground builders. |
 
 ## Installation
@@ -56,6 +57,7 @@ See individual plugin READMEs for details:
 - [`plugins/testing/`](plugins/testing/) — Test failure investigation discipline
 - [`plugins/react-native-appium/`](plugins/react-native-appium/) — Mobile E2E TDD workflow
 - [`plugins/openclaw/`](plugins/openclaw/) — OpenClaw skill authoring standards
+- [`plugins/audio-transcripts/`](plugins/audio-transcripts/) — Multi-speaker transcript cleanup
 - [`plugins/dev-utils/`](plugins/dev-utils/) — Meta utilities and scaffolding
 
 ## About the Author
