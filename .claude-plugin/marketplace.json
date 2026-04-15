@@ -66,6 +66,12 @@
       "version": "1.0.0"
     },
     {
+      "name": "audio-transcripts",
+      "source": "./plugins/audio-transcripts/.claude",
+      "description": "Skills for turning audio into clean multi-speaker transcripts: text-side speaker diarization (paired with audio-side pyannote in the polyphony CLI), with room for ASR error correction and transcript reconciliation as the toolkit grows",
+      "version": "0.1.0"
+    },
+    {
       "name": "dev-utils",
       "source": "./plugins/dev-utils/.claude",
       "description": "Meta utilities for Claude Code development: instruction compacting, permission syncing, screenshot review galleries, playground builders, and extension scaffolding",
